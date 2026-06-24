@@ -39,7 +39,7 @@ public class OrderOperationsRestController {
 		return ResponseEntity.ok(responseVO);
 	}
 	
-	@PutMapping("/updateOrder/{orderId}/{/status}")
+	@PutMapping("/updateOrder/{orderId}/{status}")
 	public ResponseEntity<OrderResponseVO> updateOrderStatus(@PathVariable Long orderId, @PathVariable String status) throws OrderIdNotFoundException{
 		OrderResponseVO responseVO = service.updateOrderStatus(orderId, status);
 		return ResponseEntity.ok(responseVO);
