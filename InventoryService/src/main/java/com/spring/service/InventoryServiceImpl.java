@@ -60,13 +60,16 @@ public class InventoryServiceImpl implements IInventoryService {
 	}
 
 	@Override
-	public void checkAndReduceStock(Long productId, Integer quantity) throws ProductNotFoundException, ProductOutOfStockException {
+	public InventoryResponseVO checkAndReduceStock(Long productId, Integer quantity) throws ProductNotFoundException, ProductOutOfStockException {
 		ProductEntity productEntity = prodRepo.findById(productId)
                 .orElseThrow(()->
                  new ProductNotFoundException("Product having product id "+productId+" not found"));
         if(productEntity.getStock() < quantity) throw new ProductOutOfStockException("Product Currently Out Of Stock");
         productEntity.setStock(productEntity.getStock() - quantity);
 		prodRepo.save(productEntity);
+		InventoryResponseVO responseVO = new InventoryResponseVO();
+		BeanUtils.copyProperties(productEntity, responseVO);
+		return responseVO;
 	}
 
 

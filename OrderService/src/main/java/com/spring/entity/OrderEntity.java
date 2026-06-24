@@ -43,7 +43,6 @@ public class OrderEntity {
 	private String status = "PROCESSING";
 	
 	//MetaData Properties
-	@Column(insertable = true, updatable = false)
 	private String createdBy = System.getProperty("user.name");
 	@CreationTimestamp
 	@Column(insertable = true, updatable = false)
@@ -51,6 +50,6 @@ public class OrderEntity {
 	@Column(insertable=false, updatable = true)
 	private String updatedBy = System.getProperty("user.name");
 	@UpdateTimestamp
-	@Column(insertable=false, updatable = true)
+	@Column(insertable=true, updatable = true)
 	private LocalDateTime updationTime;
 }

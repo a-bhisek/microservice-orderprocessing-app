@@ -46,7 +46,8 @@ public class InventoryOperationController {
 	}
 	
 	@PutMapping("/checkAndReduceStock/{productId}/{quantity}")
-	public void checkAndReduceStock(@PathVariable Long productId, @PathVariable Integer quantity) throws ProductNotFoundException, ProductOutOfStockException{
-		service.checkAndReduceStock(productId, quantity);
+	public ResponseEntity<InventoryResponseVO> checkAndReduceStock(@PathVariable Long productId, @PathVariable Integer quantity) throws ProductNotFoundException, ProductOutOfStockException{
+		InventoryResponseVO responseVO = service.checkAndReduceStock(productId, quantity);
+		return ResponseEntity.ok(responseVO);
 	}
 }

@@ -13,5 +13,5 @@ public interface IInventoryService {
 	public String addProduct(InventoryRequestVO requestVO) throws ProductAlreadyExistsException;
 	public InventoryResponseVO getProduct(Long productId) throws ProductNotFoundException;
 	public List<InventoryResponseVO> getAllProducts() throws ProductNotFoundException;
-	public void checkAndReduceStock(Long productId, Integer quantity) throws ProductNotFoundException, ProductOutOfStockException;
+	public InventoryResponseVO checkAndReduceStock(Long productId, Integer quantity) throws ProductNotFoundException, ProductOutOfStockException;
 }
