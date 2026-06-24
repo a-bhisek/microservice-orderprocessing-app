@@ -2,6 +2,7 @@ package com.spring.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.spring.entity.PaymentEntity;
 import com.spring.exception.PaymentFailedException;
@@ -10,6 +11,7 @@ import com.spring.repository.PaymentRepository;
 import com.spring.vo.PaymentRequestVO;
 import com.spring.vo.PaymentResponseVO;
 
+@Service
 public class PaymentServiceImpl implements IPaymentService {
 
 	@Autowired
