@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.exception.OrderIdNotFoundException;
 import com.spring.exception.OrderUnsuccessfulException;
 import com.spring.exception.OrdersEmptyException;
+import com.spring.exception.PaymentUnsuccessfulException;
 import com.spring.service.IOrderService;
 import com.spring.vo.OrderRequestVO;
 import com.spring.vo.OrderResponseVO;
@@ -28,7 +29,7 @@ public class OrderOperationsRestController {
 	private IOrderService service;
 	
 	@PostMapping("/placeOrder")
-	public ResponseEntity<String> placeOrder(@RequestBody OrderRequestVO requestVO) throws OrderUnsuccessfulException{
+	public ResponseEntity<String> placeOrder(@RequestBody OrderRequestVO requestVO) throws OrderUnsuccessfulException, PaymentUnsuccessfulException{
 		String msg = service.placeOrder(requestVO);
 		return new ResponseEntity<String>(msg,HttpStatus.CREATED);
 	}
