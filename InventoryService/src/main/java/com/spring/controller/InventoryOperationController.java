@@ -3,6 +3,7 @@ package com.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import com.spring.vo.InventoryResponseVO;
 
 @RestController
 @RequestMapping("/inventory-api")
+@RefreshScope
 public class InventoryOperationController {
 
 	@Autowired

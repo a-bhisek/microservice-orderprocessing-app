@@ -3,6 +3,8 @@ package com.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +25,14 @@ import com.spring.vo.OrderResponseVO;
 
 @RestController
 @RequestMapping("/order-api")
+@RefreshScope
 public class OrderOperationsRestController {
 
 	@Autowired
 	private IOrderService service;
+	
+	@Value("${order.message}")
+	private String msg;
 	
 	@PostMapping("/placeOrder")
 	public ResponseEntity<String> placeOrder(@RequestBody OrderRequestVO requestVO) throws OrderUnsuccessfulException, PaymentUnsuccessfulException{
@@ -37,6 +43,7 @@ public class OrderOperationsRestController {
 	@GetMapping("/findOrder/{orderId}")
 	public ResponseEntity<OrderResponseVO> getOrderDetails(@PathVariable Long orderId)throws OrderIdNotFoundException {
 		OrderResponseVO responseVO = service.getOrderDetails(orderId);
+		System.out.println(msg);
 		return ResponseEntity.ok(responseVO);
 	}
 	
