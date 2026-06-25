@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.spring.vo.PaymentResponseVO;
 
 @RestController
 @RequestMapping("/payment-api")
+@RefreshScope
 public class PaymentOperationRestController {
 	
 	@Autowired
