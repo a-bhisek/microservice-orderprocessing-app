@@ -52,4 +52,5 @@ public class InventoryOperationController {
 		InventoryResponseVO responseVO = service.checkAndReduceStock(productId, quantity);
 		return ResponseEntity.ok(responseVO);
 	}
+	
 }
