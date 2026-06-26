@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 public class InventoryServiceApplication {
 
 	public static void main(String[] args) {
+		log.info("Start of InventoryServiceApplication");
 		SpringApplication.run(InventoryServiceApplication.class, args);
 	}
 

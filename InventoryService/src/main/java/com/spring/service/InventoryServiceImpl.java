@@ -14,7 +14,10 @@ import com.spring.exceptions.ProductOutOfStockException;
 import com.spring.repository.ProductRepository;
 import com.spring.vo.InventoryRequestVO;
 import com.spring.vo.InventoryResponseVO;
+
+import lombok.extern.slf4j.Slf4j;
 @Service
+@Slf4j
 public class InventoryServiceImpl implements IInventoryService {
 
 	@Autowired
@@ -30,6 +33,7 @@ public class InventoryServiceImpl implements IInventoryService {
 		BeanUtils.copyProperties(requestVO, productEntity);
 		System.out.println(productEntity);
 		Long id = prodRepo.save(productEntity).getProductId();
+		log.info("Product added successfully");
 		return "Product added successfully having product id : "+id;
 		
 	}
@@ -41,6 +45,7 @@ public class InventoryServiceImpl implements IInventoryService {
 				                               new ProductNotFoundException("Product having product id "+productId+" not found"));
 		InventoryResponseVO responseVO = new InventoryResponseVO();
 		BeanUtils.copyProperties(productEntity, responseVO);
+		log.info("Product find");
 		return responseVO;
 	}
 
@@ -69,6 +74,7 @@ public class InventoryServiceImpl implements IInventoryService {
 		prodRepo.save(productEntity);
 		InventoryResponseVO responseVO = new InventoryResponseVO();
 		BeanUtils.copyProperties(productEntity, responseVO);
+		log.info("Product is in stock and reduced");
 		return responseVO;
 	}
 
