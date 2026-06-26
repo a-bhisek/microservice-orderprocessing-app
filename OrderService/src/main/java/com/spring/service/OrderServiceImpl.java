@@ -22,7 +22,10 @@ import com.spring.repository.OrderRepository;
 import com.spring.vo.OrderRequestVO;
 import com.spring.vo.OrderResponseVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class OrderServiceImpl implements IOrderService {
 
 	@Autowired
@@ -35,19 +38,23 @@ public class OrderServiceImpl implements IOrderService {
 	public String placeOrder(OrderRequestVO requestVO) throws OrderUnsuccessfulException, PaymentUnsuccessfulException {
 		InventoryResponseVO responseVO = service.checkAndReduceInventory(requestVO.getProductId(),requestVO.getQuantity());
 		if(responseVO == null) throw new OrderUnsuccessfulException("There is a problem occours please try after sometime");
+		log.info("Product is in stock and reduced");
 		OrderEntity orderEntity = new OrderEntity(); 
 		BeanUtils.copyProperties(requestVO, orderEntity);
 		orderEntity.setTotalAmount(responseVO.getProductPrice() * orderEntity.getQuantity());
 		Long id = orderRepo.save(orderEntity).getOrderId();
+		log.info("Order is in processing");
 		OrderPlacedDTO orderPlacedDTO = new OrderPlacedDTO();
 		orderPlacedDTO.setOrderId(id);
 		orderPlacedDTO.setToMail("abhisekmohapatra093@gmail.com");
 		service.sendOrderPlacedMail(orderPlacedDTO);
+		log.info("Order placed mail sent");
 		PaymentRequestVO paymentRequestVO = new PaymentRequestVO();
 		paymentRequestVO.setOrderId(id);
 		paymentRequestVO.setAmount(orderEntity.getTotalAmount());
 		paymentRequestVO.setPaymentMode("UPI");
 		PaymentResponseVO paymentResponseVO = service.makePayment(paymentRequestVO);
+		log.info("Payment service make payment method called");
 		if(paymentResponseVO != null) {
 			orderEntity.setStatus("PLACED");
 			orderRepo.save(orderEntity);
@@ -58,8 +65,10 @@ public class OrderServiceImpl implements IOrderService {
 		paymentDTO.setPaymentStatus(paymentResponseVO.getPaymentStatus());
 		paymentDTO.setToMail("abhisekmohapatra093@gmail.com");
 		service.sendPaymentConfirmationMail(paymentDTO);
+		log.info("payment confirmation mail sent");
 		return "Order placed Successfully having order id : "+id;
 		}
+		log.error("Payment failed");
 		 orderEntity.setStatus("PAYMENT_FAILED");
 		 orderRepo.save(orderEntity);
 		 throw new PaymentUnsuccessfulException("Payment Failed");

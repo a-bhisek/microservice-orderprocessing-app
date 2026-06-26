@@ -18,8 +18,10 @@ import com.spring.dto.PaymentConfirmationDTO;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class EmailServiceImpl implements IEmailService{
 
 	@Autowired
@@ -46,7 +48,7 @@ public class EmailServiceImpl implements IEmailService{
 	        document.add(new Paragraph("Generated On : " + java.time.LocalDateTime.now()));
 
 	        document.close();
-
+            log.info("PDF invoice generated.");
 	        return outputStream.toByteArray();
 
 	    } catch (Exception e) {
@@ -84,6 +86,7 @@ public class EmailServiceImpl implements IEmailService{
 
 				 """.formatted(orderDTO.getOrderId()));
 		sender.send(message);
+		log.info("Order confirmation mail sent");
 		return "Order Confirmation Mail Sent";
 	}
 
@@ -124,6 +127,7 @@ public class EmailServiceImpl implements IEmailService{
 		        new ByteArrayResource(pdf)
 		);
 		sender.send(message);
+		log.info("Payment Confirmation mail sent");
 		return "Payment Confirmation Mail Sent";
 	}
 
